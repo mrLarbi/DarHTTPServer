@@ -9,11 +9,12 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>DarHTTPServer</name>
 	<url>http://maven.apache.org</url>
-	<dependencies>
-
-	</dependencies>
 	<build>
-		<finalName>DarHTTPServer</finalName>
+		<directory>target</directory>
+		<outputDirectory>target/classes</outputDirectory>
+		<finalName>${artifactId}-${version}</finalName>
+		<testOutputDirectory>target/test-classes</testOutputDirectory>
+		<sourceDirectory>src/</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
