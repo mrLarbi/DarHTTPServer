@@ -4,17 +4,18 @@ public class EchoServer implements IApplication {
 
     public HttpResponse doGet(HttpRequest request) {
         HttpResponse response = new HttpResponse();
-        String contentType = request.getContentType();
+        String contentType = request.getHeader("content-type");
         switch (contentType) {
             case "text/plain":
-                return response.body(request.toString());
+                response.setBody(request.toString());
             case "text/html":
-                return response.body(request.toHTML());
+                response.setBody(request.toHTML());
             case "application/json":
-                return response.body(request.toJSON());
+                response.setBody(request.toJSON());
             default:
                 response.setBody("Format not supported : " + contentType);
         }
+        return response;
     }
 
     public HttpResponse doHead(HttpRequest request) {
@@ -32,6 +33,8 @@ public class EchoServer implements IApplication {
     public HttpResponse doPut(HttpRequest request) {
         return notImplemented();
     }
+
+
 
     public HttpResponse doDelete(HttpRequest request) {
         return notImplemented();

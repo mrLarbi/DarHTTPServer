@@ -10,7 +10,7 @@ public class HttpResponse {
     }
 
     public int getStatus() {
-        return body;
+        return status;
     }
 
     public void setStatus(int status) {
