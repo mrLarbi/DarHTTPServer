@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20151123</version>
+			<version>20080701</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hp.gagawa</groupId>
@@ -34,8 +34,8 @@
 				<version>3.3</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 
 				</configuration>
 			</plugin>
