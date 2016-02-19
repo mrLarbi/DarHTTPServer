@@ -12,7 +12,9 @@ public class HttpRequest {
 	//one line per header
 	private HashMap<String, String> headers;
 	private String body;
-	
+
+
+
 	public HttpRequest(String request) {
 		
 		method = METHOD.NONE;
@@ -22,6 +24,4 @@ public class HttpRequest {
 		body = "";
 		
 	}
-	
-
 }
