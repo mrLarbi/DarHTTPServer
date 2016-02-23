@@ -3,8 +3,9 @@ package com.upmc.dar.http;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hp.gagawa.java.elements.*;
 import org.json.JSONObject;
+
+import com.hp.gagawa.java.elements.*;
 
 public class HttpRequest {
 	
@@ -78,15 +79,44 @@ public class HttpRequest {
 	}
 	
 	public String toHTML() {
-
+		Html html = new Html();
+		Head header = new Head();
+		Title title = new Title();
+		
+		title.appendText("HTTP Request");
+		header.appendChild(title);
+		html.appendChild(header);
+		
+		Body body = new Body();
+		H1 h1 = new H1();
+		h1.appendText(method.toString() + " " + request_uri + " HTTP/" + http_version);
+		body.appendChild(h1);
+		P p = new P();
+		
+		for(String httpheader : headers.keySet()) {
+			p.appendText(httpheader + ": " + headers.get(httpheader));
+			p.appendChild(new Br());
+		}
+		p.appendText(System.lineSeparator());
+		p.appendText(this.body);
+		
+		body.appendChild(p);
+		html.appendChild(body);
+		
+		return html.write();
 	}
 	
 	public String toJSON() {
 		JSONObject json = new JSONObject();
 		
 		json.put("method", method.toString());
+<<<<<<< HEAD
 		json.put("uri", url.getRequest_uri());
 		json.put("htp_version", http_version);
+=======
+		json.put("uri", request_uri);
+		json.put("hhtp_version", http_version);
+>>>>>>> ace51751e8f7c988e90fb110edf4d9a128970180
 		
 		for(String header : headers.keySet()) {
 			json.put(header, headers.get(header));
