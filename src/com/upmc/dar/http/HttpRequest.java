@@ -89,7 +89,7 @@ public class HttpRequest {
 		
 		Body body = new Body();
 		H1 h1 = new H1();
-		h1.appendText(method.toString() + " " + request_uri + " HTTP/" + http_version);
+		h1.appendText(method.toString() + " " + url.getRequest_uri() + " HTTP/" + http_version);
 		body.appendChild(h1);
 		P p = new P();
 		
@@ -110,13 +110,10 @@ public class HttpRequest {
 		JSONObject json = new JSONObject();
 		
 		json.put("method", method.toString());
-<<<<<<< HEAD
 		json.put("uri", url.getRequest_uri());
 		json.put("htp_version", http_version);
-=======
-		json.put("uri", request_uri);
+		json.put("uri", url.getRequest_uri());
 		json.put("hhtp_version", http_version);
->>>>>>> ace51751e8f7c988e90fb110edf4d9a128970180
 		
 		for(String header : headers.keySet()) {
 			json.put(header, headers.get(header));
