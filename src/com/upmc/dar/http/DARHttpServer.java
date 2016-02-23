@@ -14,6 +14,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.upmc.dar.apps.IApplication;
+
 public class DARHttpServer {
 
 	private static final int TIMEOUT = 30; //seconds

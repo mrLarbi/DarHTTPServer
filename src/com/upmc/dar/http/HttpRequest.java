@@ -45,10 +45,10 @@ public class HttpRequest {
 		String[] request_line = lines[0].split("\\s+");
 		
 		method = METHOD.valueOf(request_line[0]);
-		url.setRequest_uri(request_line[1]);
+		url.setUrl(request_line[1]);
 		http_version = Double.parseDouble(request_line[2].replace("HTTP/", ""));
 		
-		for(String param : url.getRequest_uri().split("\\?")[1].split("\\&")) {
+		for(String param : url.getUrl().split("\\?")[1].split("\\&")) {
 			String p[] = param.split("=");
 			url.getParameters().put(p[0], p[1]);
 		}
@@ -66,7 +66,7 @@ public class HttpRequest {
 	
 	public String toString() {
 		StringBuilder res = new StringBuilder();
-		res.append(method.toString()).append(" ").append(url.getRequest_uri()).append(" ").append("HTTP/").append(http_version);
+		res.append(method.toString()).append(" ").append(url.getUrl()).append(" ").append("HTTP/").append(http_version);
 		res.append(System.lineSeparator());
 		
 		for(String header : headers.keySet()) {
@@ -89,7 +89,7 @@ public class HttpRequest {
 		
 		Body body = new Body();
 		H1 h1 = new H1();
-		h1.appendText(method.toString() + " " + url.getRequest_uri() + " HTTP/" + http_version);
+		h1.appendText(method.toString() + " " + url.getUrl() + " HTTP/" + http_version);
 		body.appendChild(h1);
 		P p = new P();
 		
@@ -110,10 +110,8 @@ public class HttpRequest {
 		JSONObject json = new JSONObject();
 		
 		json.put("method", method.toString());
-		json.put("uri", url.getRequest_uri());
+		json.put("uri", url.getUrl());
 		json.put("htp_version", http_version);
-		json.put("uri", url.getRequest_uri());
-		json.put("hhtp_version", http_version);
 		
 		for(String header : headers.keySet()) {
 			json.put(header, headers.get(header));
@@ -128,7 +126,7 @@ public class HttpRequest {
 	}
 
 	public String getRequest_uri() {
-		return url.getRequest_uri();
+		return url.getUrl();
 	}
 
 	public Map<String, String> getParameters() {

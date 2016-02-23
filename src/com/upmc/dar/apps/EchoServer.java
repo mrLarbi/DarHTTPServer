@@ -1,4 +1,7 @@
-package com.upmc.dar.http;
+package com.upmc.dar.apps;
+
+import com.upmc.dar.http.HttpRequest;
+import com.upmc.dar.http.HttpResponse;
 
 public class EchoServer extends IApplication {
 

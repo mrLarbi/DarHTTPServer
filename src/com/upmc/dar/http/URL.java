@@ -3,29 +3,26 @@ package com.upmc.dar.http;
 import java.util.Map;
 import java.util.HashMap;
 
-/**
- * Created by mohameddd on 2/23/16.
- */
 public class URL {
-    private String request_uri;
+    private String url;
     private Map<String, String> parameters;
 
     public URL() {
-        this.request_uri = "";
+        this.url = "";
         parameters = new HashMap<String, String>();
     }
 
-    public URL(String requestUri) {
-        this.request_uri = requestUri;
+    public URL(String url) {
+        this.url = url;
         parameters = new HashMap<String, String>();
     }
 
-    public String getRequest_uri() {
-        return request_uri;
+    public String getUrl() {
+        return url;
     }
 
-    public void setRequest_uri(String request_uri) {
-        this.request_uri = request_uri;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Map<String, String> getParameters() {
