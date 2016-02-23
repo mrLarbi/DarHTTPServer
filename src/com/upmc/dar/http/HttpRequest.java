@@ -126,6 +126,18 @@ public class HttpRequest {
 	public String getMethod() {
 		return method.toString();
 	}
+
+	public String getRequest_uri() {
+		return url.getRequest_uri();
+	}
+
+	public Map<String, String> getParameters() {
+		return url.getParameters();
+	}
+
+	public String getParameter(String parameter) {
+		return url.getParameters().get(parameter);
+	}
 	
 	public double getHttp_version() {
 		return http_version;
