@@ -11,9 +11,8 @@ public class HttpRequest {
 	private enum METHOD { GET, HEAD, POST, PUT, OPTIONS, DELETE, TRACE, NONE }
 	
 	private METHOD method;
-	private String request_uri;
 	private double http_version;
-	private Map<String, String> parameters;
+	private URL url;
 	private Map<String, String> headers;
 	private String body;
 	private boolean valid;
@@ -21,10 +20,9 @@ public class HttpRequest {
 	public HttpRequest() {
 		
 		method = METHOD.NONE;
-		request_uri = "";
+		url = new URL();
 		http_version = 0;
 		headers = new HashMap<String, String>();
-		parameters = new HashMap<String, String>();
 		body = "";
 		valid = false;
 	}
@@ -46,12 +44,12 @@ public class HttpRequest {
 		String[] request_line = lines[0].split("\\s+");
 		
 		method = METHOD.valueOf(request_line[0]);
-		request_uri = request_line[1];
+		url.setRequest_uri(request_line[1]);
 		http_version = Double.parseDouble(request_line[2].replace("HTTP/", ""));
 		
-		for(String param : request_uri.split("\\?")[1].split("\\&")) {
+		for(String param : url.getRequest_uri().split("\\?")[1].split("\\&")) {
 			String p[] = param.split("=");
-			parameters.put(p[0], p[1]);
+			url.getParameters().put(p[0], p[1]);
 		}
 		
 		int l = 1;
@@ -67,7 +65,7 @@ public class HttpRequest {
 	
 	public String toString() {
 		StringBuilder res = new StringBuilder();
-		res.append(method.toString()).append(" ").append(request_uri).append(" ").append("HTTP/").append(http_version);
+		res.append(method.toString()).append(" ").append(url.getRequest_uri()).append(" ").append("HTTP/").append(http_version);
 		res.append(System.lineSeparator());
 		
 		for(String header : headers.keySet()) {
@@ -80,54 +78,14 @@ public class HttpRequest {
 	}
 	
 	public String toHTML() {
-		Html html = new Html();
-		Head head = new Head();
-		Title title = new Title();
-		title.appendText("HTTP Response");
-		Body body = new Body();
 
-		H1 h1 = new H1();
-		h1.appendText("Request");
-		body.appendChild(h1);
-
-		Div div1 = new Div();
-		div1.appendText(method.toString());
-		body.appendChild(div1);
-
-		Div div2 = new Div();
-		div2.appendText(request_uri);
-		body.appendChild(div2);
-
-		Div div3 = new Div();
-		div3.appendText("Version : " + http_version);
-		body.appendChild(div3);
-
-		H1 h2 = new H1();
-		h2.appendText("Headers");
-		body.appendChild(h2);
-
-		for(String header : headers.keySet()) {
-			Div div4 = new Div();
-			div3.appendText(header + ": " + headers.get(header));
-			body.appendChild(div4);
-		}
-
-		H1 h3 = new H1();
-		h3.appendText("Body");
-		body.appendChild(h2);
-
-		Div div5 = new Div();
-		div3.appendText(body);
-		body.appendChild(div5);
-
-		return "";
 	}
 	
 	public String toJSON() {
 		JSONObject json = new JSONObject();
 		
 		json.put("method", method.toString());
-		json.put("uri", request_uri);
+		json.put("uri", url.getRequest_uri());
 		json.put("htp_version", http_version);
 		
 		for(String header : headers.keySet()) {
@@ -142,20 +100,8 @@ public class HttpRequest {
 		return method.toString();
 	}
 	
-	public String getRequest_uri() {
-		return request_uri;
-	}
-	
 	public double getHttp_version() {
 		return http_version;
-	}
-	
-	public Map<String, String> getParameters() {
-		return parameters;
-	}
-	
-	public String getParameter(String parameter) {
-		return parameters.get(parameter);
 	}
 	
 	public Map<String, String> getHeaders() {
