@@ -6,9 +6,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class DARHttpServer {
 
+	private static final int TIMEOUT = 30; //seconds
 	private static IApplication app;
 
 	public static void main(String args[]) {
@@ -71,19 +79,34 @@ public class DARHttpServer {
 
 				BufferedReader br = new BufferedReader( new InputStreamReader (s.getInputStream()));
 				StringBuilder strRequest = new StringBuilder();
-				String line;
 
-				//get request
-				while( !(line = br.readLine()).isEmpty()) {
-					strRequest.append(line).append(System.lineSeparator());
-				}
+				ExecutorService executor = Executors.newCachedThreadPool();
+				Callable<String> task = () -> { 
+					//get request
+					String line;
+					StringBuilder s = new StringBuilder();
+					while( !(line = br.readLine()).isEmpty()) {
+						s.append(line).append(System.lineSeparator());
+					}
+					
+					return s.toString();
+				};
+				Future<String> future = executor.submit(task);
+				try {
+					   strRequest.append(future.get(TIMEOUT, TimeUnit.SECONDS)); 
+					} catch (TimeoutException e) {
+						HttpResponse response = new HttpResponse();
+						response.setStatus(408);
+					} finally {
+					   future.cancel(true); // may or may not desire this
+					}
 				
 				//parse request
 				HttpRequest request = new HttpRequest();
+				HttpResponse response = new HttpResponse();
 				request.parse(strRequest.toString());
 				
 				String strLength = request.getHeader("Content-Lenght");
-				System.out.println(strLength);
 				if(strLength == null) strLength = "0";
 				
 				try{
@@ -95,7 +118,6 @@ public class DARHttpServer {
 					request.setBody(new String(cBody));					
 					
 				} catch (Exception e) {
-					HttpResponse response = new HttpResponse();
 					response.setStatus(400);
 					sendResponse(s, response);					
 					s.close();
@@ -107,7 +129,7 @@ public class DARHttpServer {
 				System.out.println();
 
 				//treat request
-				HttpResponse response = app.accept(request);
+				response = app.accept(request);			
 				sendResponse(s, response);
 
 				br.close();

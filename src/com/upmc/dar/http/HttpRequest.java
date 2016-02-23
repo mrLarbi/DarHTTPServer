@@ -3,8 +3,9 @@ package com.upmc.dar.http;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hp.gagawa.java.elements.*;
 import org.json.JSONObject;
+
+import com.hp.gagawa.java.elements.*;
 
 public class HttpRequest {
 	
@@ -81,46 +82,30 @@ public class HttpRequest {
 	
 	public String toHTML() {
 		Html html = new Html();
-		Head head = new Head();
+		Head header = new Head();
 		Title title = new Title();
-		title.appendText("HTTP Response");
+		
+		title.appendText("HTTP Request");
+		header.appendChild(title);
+		html.appendChild(header);
+		
 		Body body = new Body();
-
 		H1 h1 = new H1();
-		h1.appendText("Request");
+		h1.appendText(method.toString() + " " + request_uri + " HTTP/" + http_version);
 		body.appendChild(h1);
-
-		Div div1 = new Div();
-		div1.appendText(method.toString());
-		body.appendChild(div1);
-
-		Div div2 = new Div();
-		div2.appendText(request_uri);
-		body.appendChild(div2);
-
-		Div div3 = new Div();
-		div3.appendText("Version : " + http_version);
-		body.appendChild(div3);
-
-		H1 h2 = new H1();
-		h2.appendText("Headers");
-		body.appendChild(h2);
-
-		for(String header : headers.keySet()) {
-			Div div4 = new Div();
-			div3.appendText(header + ": " + headers.get(header));
-			body.appendChild(div4);
+		P p = new P();
+		
+		for(String httpheader : headers.keySet()) {
+			p.appendText(httpheader + ": " + headers.get(httpheader));
+			p.appendChild(new Br());
 		}
-
-		H1 h3 = new H1();
-		h3.appendText("Body");
-		body.appendChild(h2);
-
-		Div div5 = new Div();
-		div3.appendText(body);
-		body.appendChild(div5);
-
-		return "";
+		p.appendText(System.lineSeparator());
+		p.appendText(this.body);
+		
+		body.appendChild(p);
+		html.appendChild(body);
+		
+		return html.write();
 	}
 	
 	public String toJSON() {
@@ -128,7 +113,7 @@ public class HttpRequest {
 		
 		json.put("method", method.toString());
 		json.put("uri", request_uri);
-		json.put("htp_version", http_version);
+		json.put("hhtp_version", http_version);
 		
 		for(String header : headers.keySet()) {
 			json.put(header, headers.get(header));
