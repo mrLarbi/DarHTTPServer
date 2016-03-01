@@ -1,10 +1,14 @@
 package com.upmc.dar.apps;
 
+import java.util.HashMap;
+
 import com.upmc.dar.http.HttpRequest;
 import com.upmc.dar.http.HttpResponse;
 
 public abstract class IApplication {
 
+	private HashMap<Integer, String> params = new HashMap<Integer, String>();
+	
     public HttpResponse accept(HttpRequest request) {
     	String m = request.getMethod();
     	
@@ -31,5 +35,17 @@ public abstract class IApplication {
 	protected abstract HttpResponse doDelete(HttpRequest request);
 	protected abstract HttpResponse doTrace(HttpRequest request);
 	protected abstract HttpResponse doBad(HttpRequest request);
+	
+	public void addParams(HashMap<Integer, String> p) {
+		params.putAll(p);
+	}
+	
+	public void addParam(int p, String v) {
+		params.put(p, v);
+	}
+	
+	public String getParam(int p) {
+		return params.get(p);
+	}
 
 }

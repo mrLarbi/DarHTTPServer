@@ -6,20 +6,24 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.Pattern;
 
 import com.upmc.dar.apps.IApplication;
+import com.upmc.dar.http.routing.Router;
 
 public class DARHttpServer {
 
 	private static final int TIMEOUT = 30; //seconds
-	private static IApplication app;
+	private static String app;
+	private static Router router;
 
 	public static void main(String args[]) {
 
@@ -29,14 +33,8 @@ public class DARHttpServer {
 		//get port and application name
 		try {
 			port = Integer.parseInt(args[0]);
-			Class<?> appClass = Class.forName(args[1]);
-			app = (IApplication) appClass.newInstance(); 
-		} catch (NumberFormatException 	|				 
-				ClassNotFoundException | 
-				IllegalAccessException | 
-				InstantiationException |
-				SecurityException e) {
-
+			app = args[1]; 
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			return;
 		}
@@ -47,6 +45,22 @@ public class DARHttpServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
+		}
+		
+		//parse routing file
+		try {
+			String[] classTokens = app.split("\\.");
+			router = new Router(classTokens[classTokens.length - 1]);
+			
+			router.initDocument();
+			router.map();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		} finally {
+			try {
+				server.close();
+			} catch (IOException e) { }
 		}
 
 		//server code
@@ -130,8 +144,26 @@ public class DARHttpServer {
 				System.out.println(request);
 				System.out.println();
 
+				//choose class that will treat the request
+				IApplication application = null;
+				try {
+					application = chooseClass(request);
+				} catch (Exception e) {
+					response.setStatus(404);
+					sendResponse(s, response);					
+					s.close();
+					return;
+				}
+				
+				if(application == null) {
+					response.setStatus(404);
+					sendResponse(s, response);					
+					s.close();
+					return;
+				}
+				
 				//treat request
-				response = app.accept(request);			
+				response = application.accept(request);			
 				sendResponse(s, response);
 
 				br.close();
@@ -150,5 +182,38 @@ public class DARHttpServer {
 		pw.write(response.toString());
 		pw.close();
 	}
-
+	
+	private static IApplication chooseClass(HttpRequest r) throws ClassNotFoundException {
+		String clazz = "";
+		HashMap<Integer, String> params = new HashMap<Integer, String>();
+		
+		String url = r.getRequest_uri();
+		String pattern = "/";
+		
+		String[] tokens = url.split("\\/");
+		int i = -1;
+		Set<Pattern> patterns = router.getPatterns();
+		do {
+			for(Pattern p : patterns) {
+				if(pattern.matches(p.pattern())) {
+					clazz = router.getMapping(p);
+					break;
+				}
+			}
+			
+			if(i >= 0) params.put(i, tokens[i]);
+			
+			i++;
+			pattern += tokens[i] + "/";
+		} while(i < tokens.length);
+		
+		Class<?> appClass = Class.forName(clazz);
+		try {
+			IApplication app = (IApplication) appClass.newInstance();
+			app.addParams(params);
+			return app;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
