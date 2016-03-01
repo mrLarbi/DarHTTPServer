@@ -52,10 +52,10 @@ public class PointAppPoint extends IApplication {
             x = lines[1].split("=")[1];
         }
         if(lines[0].charAt(0) == 'Y' || lines[0].charAt(0) == 'y') {
-            x = lines[0].split("=")[1];
+            y = lines[0].split("=")[1];
         }
         if(lines[1].charAt(0) == 'Y' || lines[0].charAt(0) == 'y') {
-            x = lines[1].split("=")[1];
+            y = lines[1].split("=")[1];
         }
 
 

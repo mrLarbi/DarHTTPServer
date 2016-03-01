@@ -120,26 +120,30 @@ public class DARHttpServer {
 				HttpResponse response = new HttpResponse();
 				request.parse(strRequest.toString());
 				
-				String strLength = request.getHeader("Content-Lenght");
+				String strLength = request.getHeader("Content-Length");
 				if(strLength == null) strLength = "0";
 				
 				try{
 					int iLength = Integer.parseInt(strLength);
 					char[] cBody = new char[iLength];
+					br.read(cBody, 0, iLength);
 					request.setBody(new String(cBody));					
 					
 				} catch (Exception e) {
+					e.printStackTrace();
 					response.setStatus(400);
 					sendResponse(s, response);					
 					s.close();
 					return;
 				}
 				
+				System.out.println(request);
 				//choose class that will treat the request
 				IApplication application = null;
 				try {
 					application = chooseClass(request);
 				} catch (Exception e) {
+					e.printStackTrace();
 					response.setStatus(404);
 					sendResponse(s, response);					
 					s.close();
@@ -179,21 +183,18 @@ public class DARHttpServer {
 		HashMap<Integer, String> params = new HashMap<Integer, String>();
 		
 		String url = r.getRequest_uri();
-		String pattern = "/";
+		System.out.println("url " + url);
+		String pattern = "";
 		
-		String[] tokens = url.split("\\/");
+		String[] tokens = url.split("/");
 		Set<Pattern> patterns = router.getPatterns();
 		
-		for(Pattern p : patterns) {
-			if(pattern.matches(p.pattern())) {
-				clazz = router.getMapping(p);
-				break;
-			}
-		}
-		
 		for(String t : tokens) {
-			pattern += t + "/";
+			if(t.isEmpty()) continue;
+			pattern += "/" + t;
+			System.out.println(pattern);
 			for(Pattern p : patterns) {
+				System.out.println(p);
 				if(pattern.matches(p.pattern())) {
 					clazz = router.getMapping(p);
 					break;
@@ -201,11 +202,9 @@ public class DARHttpServer {
 			}
 		}
 		
-		System.out.println("ok");
-		System.out.println("class " + clazz);
+		System.out.println(clazz);
 		Class<?> appClass = Class.forName(clazz);
 		try {
-			System.out.println("class " + clazz);
 			IApplication app = (IApplication) appClass.newInstance();
 			app.addParams(params);
 			return app;

@@ -48,9 +48,11 @@ public class HttpRequest {
 		url.setUrl(request_line[1]);
 		http_version = Double.parseDouble(request_line[2].replace("HTTP/", ""));
 		
-		for(String param : url.getUrl().split("\\?")[1].split("\\&")) {
-			String p[] = param.split("=");
-			url.getParameters().put(p[0], p[1]);
+		if(url.getUrl().split("\\?").length == 2) {
+			for(String param : url.getUrl().split("\\?")[1].split("\\&")) {
+				String p[] = param.split("=");
+				url.getParameters().put(p[0], p[1]);
+			}
 		}
 		
 		int l = 1;

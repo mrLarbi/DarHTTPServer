@@ -2,14 +2,14 @@
 <routing>
 	<mapping name="list">
 		<url>/list</url>
-		<class>com.upmc.dar.apps.pointapp.List</class>
+		<class>com.upmc.dar.apps.pointapp.PointAppList</class>
 	</mapping>
 	<mapping name="point id">
 		<url>/p/[0-9]+/(x|y)</url>
-		<class>com.upmc.dar.apps.pointapp.Point</class>
+		<class>com.upmc.dar.apps.pointapp.PointAppPoint</class>
 	</mapping>
 	<mapping name="point">
 		<url>/p</url>
-		<class>com.upmc.dar.apps.pointapp.Point</class>
+		<class>com.upmc.dar.apps.pointapp.PointAppPoint</class>
 	</mapping>
 </routing>
