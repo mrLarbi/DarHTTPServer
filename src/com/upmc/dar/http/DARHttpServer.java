@@ -56,13 +56,12 @@ public class DARHttpServer {
 			router.map();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
-		} finally {
 			try {
 				server.close();
-			} catch (IOException e) { }
+			} catch (IOException e2) { }
+			return;
 		}
-
+		
 		//server code
 		try {
 			for(;;) {
@@ -91,7 +90,6 @@ public class DARHttpServer {
 		public void run() {
 			try {
 				System.out.println("Client connected");
-				System.out.println();
 
 				BufferedReader br = new BufferedReader( new InputStreamReader (s.getInputStream()));
 				StringBuilder strRequest = new StringBuilder();
@@ -127,10 +125,7 @@ public class DARHttpServer {
 				
 				try{
 					int iLength = Integer.parseInt(strLength);
-					System.out.println(iLength);
 					char[] cBody = new char[iLength];
-					System.out.println(br.read(cBody, 0, iLength));
-					System.out.println(cBody.toString());
 					request.setBody(new String(cBody));					
 					
 				} catch (Exception e) {
@@ -140,10 +135,6 @@ public class DARHttpServer {
 					return;
 				}
 				
-				System.out.println("Request = ");
-				System.out.println(request);
-				System.out.println();
-
 				//choose class that will treat the request
 				IApplication application = null;
 				try {
@@ -183,7 +174,7 @@ public class DARHttpServer {
 		pw.close();
 	}
 	
-	private static IApplication chooseClass(HttpRequest r) throws ClassNotFoundException {
+	private static IApplication chooseClass(HttpRequest r) throws Exception {
 		String clazz = "";
 		HashMap<Integer, String> params = new HashMap<Integer, String>();
 		
@@ -191,24 +182,30 @@ public class DARHttpServer {
 		String pattern = "/";
 		
 		String[] tokens = url.split("\\/");
-		int i = -1;
 		Set<Pattern> patterns = router.getPatterns();
-		do {
+		
+		for(Pattern p : patterns) {
+			if(pattern.matches(p.pattern())) {
+				clazz = router.getMapping(p);
+				break;
+			}
+		}
+		
+		for(String t : tokens) {
+			pattern += t + "/";
 			for(Pattern p : patterns) {
 				if(pattern.matches(p.pattern())) {
 					clazz = router.getMapping(p);
 					break;
 				}
 			}
-			
-			if(i >= 0) params.put(i, tokens[i]);
-			
-			i++;
-			pattern += tokens[i] + "/";
-		} while(i < tokens.length);
+		}
 		
+		System.out.println("ok");
+		System.out.println("class " + clazz);
 		Class<?> appClass = Class.forName(clazz);
 		try {
+			System.out.println("class " + clazz);
 			IApplication app = (IApplication) appClass.newInstance();
 			app.addParams(params);
 			return app;

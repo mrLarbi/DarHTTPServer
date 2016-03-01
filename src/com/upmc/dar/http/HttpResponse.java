@@ -12,21 +12,21 @@ public class HttpResponse {
         
         codes.put(100, "Continue");									codes.put(408, "Request Timeout");
         codes.put(101, "Switching Protocols");						codes.put(409, "Conflict");
-        																			codes.put(410, "Gone");
-        codes.put(200, "OK");												codes.put(411, "Length Required");
-        codes.put(201, "Created");										codes.put(412, "Precondition Failed");
-        codes.put(202, "Accepted");										codes.put(413, "Request Entity Too Large");
-        codes.put(203, "Non-Authoritative Information");	codes.put(414, "Request Uri Too Long");
-        codes.put(204, "No Content");									codes.put(415, "Unsupported Media Type");
-        codes.put(205, "Reset Content");								codes.put(416, "Request Range Not Satisfied");
+        															codes.put(410, "Gone");
+        codes.put(200, "OK");										codes.put(411, "Length Required");
+        codes.put(201, "Created");									codes.put(412, "Precondition Failed");
+        codes.put(202, "Accepted");									codes.put(413, "Request Entity Too Large");
+        codes.put(203, "Non-Authoritative Information");			codes.put(414, "Request Uri Too Long");
+        codes.put(204, "No Content");								codes.put(415, "Unsupported Media Type");
+        codes.put(205, "Reset Content");							codes.put(416, "Request Range Not Satisfied");
         codes.put(206, "Partial Content");							codes.put(417, "Expectation Failed");
         
         codes.put(300, "Multiple Choices");							codes.put(500, "Internal Server Error");
-        codes.put(301, "Moved Permanently");					codes.put(501, "Not Implemented");
-        codes.put(302, "Found");										codes.put(502, "Bad Gateway");
-        codes.put(303, "See Other");									codes.put(503, "Service Unavailable");
+        codes.put(301, "Moved Permanently");						codes.put(501, "Not Implemented");
+        codes.put(302, "Found");									codes.put(502, "Bad Gateway");
+        codes.put(303, "See Other");								codes.put(503, "Service Unavailable");
         codes.put(304, "Not Modified");								codes.put(504, "Gateway Timeout");
-        codes.put(305, "Use Proxy");									codes.put(505, "HTTP Version Not Supported");
+        codes.put(305, "Use Proxy");								codes.put(505, "HTTP Version Not Supported");
 
         codes.put(400, "Bad Request");
         codes.put(401, "Unauthorized");
