@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<routing>
+	<mapping name="list">
+		<url>/list</url>
+		<class>com.upmc.dar.apps.pointapp.List</class>
+	</mapping>
+	<mapping name="point">
+		<url>/p</url>
+		<class>com.upmc.dar.apps.pointapp.Point</class>
+	</mapping>
+</routing>
