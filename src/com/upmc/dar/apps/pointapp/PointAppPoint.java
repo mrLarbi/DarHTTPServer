@@ -17,8 +17,8 @@ public class PointAppPoint extends IApplication {
 
         response.addHeader("Content-Type", "text/plain");
 
-        int id = Integer.valueOf(getParam(1));
-        String type = getParam(2);
+        int id = Integer.valueOf(getParam(2));
+        String type = getParam(3);
 
         if("x".equals(type)) {
             response.setBody("X : " + PointApp.getPointX(id));
@@ -42,23 +42,25 @@ public class PointAppPoint extends IApplication {
 
         String body = request.getBody();
 
-        String[] lines = body.split("\n");
+        String[] lines = body.split("&");
         String x = null;
         String y = null;
-        if(lines[0].charAt(0) == 'X' || lines[0].charAt(0) == 'x') {
+        if(lines[0].charAt(0) == 'x') {
             x = lines[0].split("=")[1];
         }
-        if(lines[1].charAt(0) == 'X' || lines[0].charAt(0) == 'x') {
+        if(lines[1].charAt(0) == 'x') {
             x = lines[1].split("=")[1];
         }
-        if(lines[0].charAt(0) == 'Y' || lines[0].charAt(0) == 'y') {
+        if(lines[0].charAt(0) == 'y') {
             y = lines[0].split("=")[1];
         }
-        if(lines[1].charAt(0) == 'Y' || lines[0].charAt(0) == 'y') {
+        if(lines[1].charAt(0) == 'y') {
             y = lines[1].split("=")[1];
         }
 
-
+        System.out.println(x);
+        System.out.println(y);
+        
         if(x != null && y != null) {
             PointApp.addPoint(Integer.valueOf(x), Integer.valueOf(y));
             response.setBody("OK");
@@ -66,7 +68,6 @@ public class PointAppPoint extends IApplication {
         else {
             response.setBody("KO");
         }
-
 
         return response;
     }
@@ -79,7 +80,7 @@ public class PointAppPoint extends IApplication {
         HttpResponse response = new HttpResponse();
 
         response.addHeader("Content-Type", "text/plain");
-        int id = Integer.valueOf(getParam(1));
+        int id = Integer.valueOf(getParam(2));     
 
         String x = request.getParameter("x");
         String y = request.getParameter("y");
@@ -92,7 +93,7 @@ public class PointAppPoint extends IApplication {
             PointApp.modifyPointX(id, Integer.valueOf(x));
             response.setBody("OK");
         }
-        else if (x != null) {
+        else if (y != null) {
             PointApp.modifyPointY(id, Integer.valueOf(y));
             response.setBody("OK");
         }
@@ -108,7 +109,7 @@ public class PointAppPoint extends IApplication {
         HttpResponse response = new HttpResponse();
 
         response.addHeader("Content-Type", "text/plain");
-        int id = Integer.valueOf(getParam(1));
+        int id = Integer.valueOf(getParam(2));
         PointApp.deletePoint(id);
 
         return response;

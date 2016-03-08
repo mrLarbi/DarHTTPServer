@@ -12,7 +12,7 @@ public class PointApp{
 
     private static HashMap<Integer, Point> points = new HashMap<>();
 
-    public static int addPoint(int x, int y) {
+    static int addPoint(int x, int y) {
         while(points.containsKey(currentId)) {
             currentId++;
         }
@@ -21,36 +21,36 @@ public class PointApp{
         return currentId;
     }
 
-    public static void deletePoint(int id) {
+    static void deletePoint(int id) {
         points.remove(id);
     }
 
-    public static void modifyPointX(int id, int x) {
+    static void modifyPointX(int id, int x) {
         points.get(id).x = x;
     }
 
-    public static void modifyPointY(int id, int y) {
+    static void modifyPointY(int id, int y) {
         points.get(id).y = y;
     }
 
-    public static void modifyPointXY(int id, int x, int y) {
+    static void modifyPointXY(int id, int x, int y) {
         points.get(id).x = x;
         points.get(id).y = y;
     }
 
-    public static int getPointX(int id) {
+    static int getPointX(int id) {
         return points.get(id).x;
     }
 
-    public static int getPointY(int id) {
+    static int getPointY(int id) {
         return points.get(id).y;
     }
 
-    public static Point getPoint(int id) {
+    static Point getPoint(int id) {
         return points.get(id);
     }
 
-    public static String pointsToString() {
+    static String pointsToString() {
         StringBuilder builder = new StringBuilder();
         for(int id : points.keySet()) {
             builder.append("ID : " + id + ", X : " + points.get(id).x + ", Y : " + points.get(id).y + "\n");

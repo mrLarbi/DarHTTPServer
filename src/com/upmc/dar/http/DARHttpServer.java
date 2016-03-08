@@ -182,27 +182,26 @@ public class DARHttpServer {
 		String clazz = "";
 		HashMap<Integer, String> params = new HashMap<Integer, String>();
 		
-		String url = r.getRequest_uri();
-		System.out.println("url " + url);
+		String url = r.getRequest_uri().split("\\?")[0];
 		String pattern = "";
 		
 		String[] tokens = url.split("/");
 		Set<Pattern> patterns = router.getPatterns();
 		
+		if(tokens.length == 0) {
+			pattern = "/";
+			clazz = checkPattern(pattern, patterns);
+		}
+		
+		int i = 1;
 		for(String t : tokens) {
 			if(t.isEmpty()) continue;
 			pattern += "/" + t;
-			System.out.println(pattern);
-			for(Pattern p : patterns) {
-				System.out.println(p);
-				if(pattern.matches(p.pattern())) {
-					clazz = router.getMapping(p);
-					break;
-				}
-			}
+			params.put(i, t);
+			clazz = checkPattern(pattern, patterns);
+			i++;
 		}
 		
-		System.out.println(clazz);
 		Class<?> appClass = Class.forName(clazz);
 		try {
 			IApplication app = (IApplication) appClass.newInstance();
@@ -211,5 +210,15 @@ public class DARHttpServer {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	private static String checkPattern(String pattern, Set<Pattern> patterns) {
+		for(Pattern p : patterns) {
+			if(pattern.matches(p.pattern())) {
+				return router.getMapping(p);
+			}
+		}
+		
+		return "";
 	}
 }

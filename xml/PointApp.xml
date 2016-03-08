@@ -5,7 +5,7 @@
 		<class>com.upmc.dar.apps.pointapp.PointAppList</class>
 	</mapping>
 	<mapping name="point id">
-		<url>/p/[0-9]+/(x|y)</url>
+		<url>/p/[0-9]+(/(x|y))?</url>
 		<class>com.upmc.dar.apps.pointapp.PointAppPoint</class>
 	</mapping>
 	<mapping name="point">
