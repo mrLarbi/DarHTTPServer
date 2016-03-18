@@ -3,12 +3,15 @@ package com.upmc.dar.http;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.upmc.dar.http.session.HttpSession;
 import org.json.JSONObject;
 
 import com.hp.gagawa.java.elements.*;
 
 public class HttpRequest {
-	
+
+	private HttpSession session;
+
 	private enum METHOD { GET, HEAD, POST, PUT, OPTIONS, DELETE, TRACE, NONE }
 	
 	private METHOD method;
@@ -26,6 +29,7 @@ public class HttpRequest {
 		headers = new HashMap<String, String>();
 		body = "";
 		valid = false;
+		session = new HttpSession();
 	}
 	
 	public void parse(String request) {
@@ -165,5 +169,13 @@ public class HttpRequest {
 	
 	public void invalid() {
 		valid = false;
+	}
+
+	public HttpSession getSession() {
+		return session;
+	}
+
+	public void setSession(HttpSession session) {
+		this.session = session;
 	}
 }

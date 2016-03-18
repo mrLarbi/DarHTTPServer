@@ -19,40 +19,4 @@ public class PointAppList extends IApplication {
 
         return response;
     }
-
-    protected HttpResponse doHead(HttpRequest request) {
-        return notImplemented();
-    }
-
-    protected HttpResponse doPost(HttpRequest request) {
-        return notImplemented();
-    }
-
-    protected HttpResponse doOptions(HttpRequest request) {
-        return notImplemented();
-    }
-
-    protected HttpResponse doPut(HttpRequest request) {
-        return notImplemented();
-    }
-
-    protected HttpResponse doDelete(HttpRequest request) {
-        return notImplemented();
-    }
-
-    protected HttpResponse doTrace(HttpRequest request) {
-        return notImplemented();
-    }
-
-    protected HttpResponse doBad(HttpRequest request) {
-        HttpResponse response = new HttpResponse();
-        response.setStatus(400);
-        return response;
-    }
-
-    private HttpResponse notImplemented() {
-        HttpResponse response = new HttpResponse();
-        response.setStatus(501);
-        return response;
-    }
 }

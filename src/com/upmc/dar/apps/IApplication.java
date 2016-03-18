@@ -26,15 +26,44 @@ public abstract class IApplication {
     	default : return doBad(request);
     	}
     };
-    
-    protected abstract HttpResponse doGet(HttpRequest request);
-	protected abstract HttpResponse doHead(HttpRequest request);
-	protected abstract HttpResponse doPost(HttpRequest request);
-	protected abstract HttpResponse doOptions(HttpRequest request);
-	protected abstract HttpResponse doPut(HttpRequest request);
-	protected abstract HttpResponse doDelete(HttpRequest request);
-	protected abstract HttpResponse doTrace(HttpRequest request);
-	protected abstract HttpResponse doBad(HttpRequest request);
+
+	protected HttpResponse doGet(HttpRequest request) {
+		return notImplemented();
+	}
+
+	protected HttpResponse doHead(HttpRequest request) {
+		return notImplemented();
+	}
+
+	protected HttpResponse doPost(HttpRequest request) {
+		return notImplemented();
+	}
+
+	protected HttpResponse doOptions(HttpRequest request) {
+		return notImplemented();
+	}
+
+	protected HttpResponse doPut(HttpRequest request) {
+		return notImplemented();
+	}
+
+	protected HttpResponse doDelete(HttpRequest request) {
+		return notImplemented();
+	}
+
+	protected HttpResponse doTrace(HttpRequest request) {
+		return notImplemented();
+	}
+
+	protected HttpResponse doBad(HttpRequest request) {
+		return notImplemented();
+	}
+
+	private HttpResponse notImplemented() {
+		HttpResponse response = new HttpResponse();
+		response.setStatus(501);
+		return response;
+	}
 	
 	public void addParams(HashMap<Integer, String> p) {
 		params.putAll(p);

@@ -18,12 +18,15 @@ import java.util.regex.Pattern;
 
 import com.upmc.dar.apps.IApplication;
 import com.upmc.dar.http.routing.Router;
+import com.upmc.dar.http.session.HttpSession;
+import com.upmc.dar.http.session.SessionsHandler;
 
 public class DARHttpServer {
 
 	private static final int TIMEOUT = 30; //seconds
 	private static String app;
 	private static Router router;
+	private static SessionsHandler sessionHandler = new SessionsHandler();
 
 	public static void main(String args[]) {
 
@@ -91,6 +94,8 @@ public class DARHttpServer {
 			try {
 				System.out.println("Client connected");
 
+				String ip_address = s.getRemoteSocketAddress().toString();
+
 				BufferedReader br = new BufferedReader( new InputStreamReader (s.getInputStream()));
 				StringBuilder strRequest = new StringBuilder();
 
@@ -119,7 +124,7 @@ public class DARHttpServer {
 				HttpRequest request = new HttpRequest();
 				HttpResponse response = new HttpResponse();
 				request.parse(strRequest.toString());
-				
+
 				String strLength = request.getHeader("Content-Length");
 				if(strLength == null) strLength = "0";
 				
@@ -138,7 +143,17 @@ public class DARHttpServer {
 				}
 				
 				System.out.println(request);
+
+				//Session Handling
+				/*String cookie = request.getHeader("Cookie");
+				if(cookie != null) {
+					request.setSession(sessionHandler.getSession(cookie));
+				} else {
+					sessionHandler.createSession(ip_address, request, response);
+				}*/
+
 				//choose class that will treat the request
+
 				IApplication application = null;
 				try {
 					application = chooseClass(request);

@@ -31,10 +31,6 @@ public class PointAppPoint extends IApplication {
         return response;
     }
 
-    protected HttpResponse doHead(HttpRequest request) {
-        return notImplemented();
-    }
-
     protected HttpResponse doPost(HttpRequest request) {
         HttpResponse response = new HttpResponse();
 
@@ -70,10 +66,6 @@ public class PointAppPoint extends IApplication {
         }
 
         return response;
-    }
-
-    protected HttpResponse doOptions(HttpRequest request) {
-        return notImplemented();
     }
 
     protected HttpResponse doPut(HttpRequest request) {
@@ -112,22 +104,6 @@ public class PointAppPoint extends IApplication {
         int id = Integer.valueOf(getParam(2));
         PointApp.deletePoint(id);
 
-        return response;
-    }
-
-    protected HttpResponse doTrace(HttpRequest request) {
-        return notImplemented();
-    }
-
-    protected HttpResponse doBad(HttpRequest request) {
-        HttpResponse response = new HttpResponse();
-        response.setStatus(400);
-        return response;
-    }
-
-    private HttpResponse notImplemented() {
-        HttpResponse response = new HttpResponse();
-        response.setStatus(501);
         return response;
     }
 }
