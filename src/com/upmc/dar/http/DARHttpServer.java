@@ -145,12 +145,12 @@ public class DARHttpServer {
 				System.out.println(request);
 
 				//Session Handling
-				/*String cookie = request.getHeader("Cookie");
+				String cookie = request.getHeader("Cookie");
 				if(cookie != null) {
 					request.setSession(sessionHandler.getSession(cookie));
 				} else {
 					sessionHandler.createSession(ip_address, request, response);
-				}*/
+				}
 
 				//choose class that will treat the request
 
