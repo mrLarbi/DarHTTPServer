@@ -26,42 +26,6 @@ public abstract class IApplication {
     	default : return doBad(request);
     	}
     };
-<<<<<<< Updated upstream
-
-	protected HttpResponse doGet(HttpRequest request) {
-		return notImplemented();
-	}
-
-	protected HttpResponse doHead(HttpRequest request) {
-		return notImplemented();
-	}
-
-	protected HttpResponse doPost(HttpRequest request) {
-		return notImplemented();
-	}
-
-	protected HttpResponse doOptions(HttpRequest request) {
-		return notImplemented();
-	}
-
-	protected HttpResponse doPut(HttpRequest request) {
-		return notImplemented();
-	}
-
-	protected HttpResponse doDelete(HttpRequest request) {
-		return notImplemented();
-	}
-
-	protected HttpResponse doTrace(HttpRequest request) {
-		return notImplemented();
-	}
-
-	protected HttpResponse doBad(HttpRequest request) {
-		return notImplemented();
-	}
-
-	private HttpResponse notImplemented() {
-=======
     
     protected HttpResponse doGet(HttpRequest request) {
     	return notImplemented();
@@ -98,7 +62,6 @@ public abstract class IApplication {
 	}
 	
 	protected HttpResponse notImplemented() {
->>>>>>> Stashed changes
 		HttpResponse response = new HttpResponse();
 		response.setStatus(501);
 		return response;

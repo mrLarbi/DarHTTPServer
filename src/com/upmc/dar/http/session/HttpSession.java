@@ -1,6 +1,7 @@
 package com.upmc.dar.http.session;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by mohameddd on 3/11/16.
@@ -31,11 +32,16 @@ public class HttpSession {
         attributes.remove(key);
     }
 
-    public String[] getAttributeNames() {
-        return (String[])attributes.keySet().toArray();
+    public Set<String> getAttributeNames() {
+        return attributes.keySet();
     }
 
     public long getCreationDate() {
         return creationDate;
+    }
+    public void print() {
+        for(String key : attributes.keySet()) {
+            System.out.println(key + ":" + attributes.get(key));
+        }
     }
 }

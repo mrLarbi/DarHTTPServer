@@ -12,4 +12,8 @@
         <url>/isLogged</url>
         <class>com.upmc.dar.apps.signup.IsLogged</class>
     </mapping>
+    <mapping name="logout">
+        <url>/logout</url>
+        <class>com.upmc.dar.apps.signup.Logout</class>
+    </mapping>
 </routing>

@@ -1,5 +1,7 @@
 package com.upmc.dar.utilities;
 
+import com.upmc.dar.http.HttpResponse;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +26,15 @@ public class Utilities {
 		} catch (Exception e){ }
 		
 		return res;
+	}
+
+	public static void textResponse(boolean valid, String message, HttpResponse response) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(valid);
+		builder.append('\n');
+		builder.append(message + "\n");
+
+		response.setBody(builder.toString());
 	}
 
 }

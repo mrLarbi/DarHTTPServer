@@ -94,7 +94,7 @@ public class DARHttpServer {
 			try {
 				System.out.println("Client connected");
 
-				String ip_address = s.getRemoteSocketAddress().toString();
+				String ip_address = s.getInetAddress().getHostAddress();
 
 				BufferedReader br = new BufferedReader( new InputStreamReader (s.getInputStream()));
 				StringBuilder strRequest = new StringBuilder();
@@ -144,14 +144,6 @@ public class DARHttpServer {
 				
 				System.out.println(request);
 
-				//Session Handling
-				String cookie = request.getHeader("Cookie");
-				if(cookie != null) {
-					request.setSession(sessionHandler.getSession(cookie));
-				} else {
-					sessionHandler.createSession(ip_address, request, response);
-				}
-
 				//choose class that will treat the request
 
 				IApplication application = null;
@@ -171,9 +163,26 @@ public class DARHttpServer {
 					s.close();
 					return;
 				}
-				
+
+				sessionHandler.print();
+
+				//Session Handling
+				String cookie = request.getHeader("Cookie");
+				if(sessionHandler.isSession(cookie)) {
+					System.out.println("Session !");
+					request.setSession(sessionHandler.getSession(cookie));
+				}
+
 				//treat request
-				response = application.accept(request);			
+				response = application.accept(request);
+
+				if(!sessionHandler.isSession(cookie)) {
+					System.out.println("Not session");
+					sessionHandler.createSession(ip_address, request, response);
+				}
+
+				System.out.println("Session : " + request.getSession());
+
 				sendResponse(s, response);
 
 				br.close();

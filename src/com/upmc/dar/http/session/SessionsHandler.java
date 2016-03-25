@@ -35,10 +35,8 @@ public class SessionsHandler {
 
     public String createSession(String ipAddress, HttpRequest req, HttpResponse resp) {
         String hash = makeHash(ipAddress);
-        HttpSession session = new HttpSession();
-        sessions.put(hash, session);
+        sessions.put(hash, req.getSession());
         resp.addHeader("Set-Cookie", hash);
-        req.setSession(session);
         Timer timer = new Timer();
         timer.schedule(new RemindTask(this, hash), sessionLifeTime * 1000);
         return hash;
@@ -64,6 +62,14 @@ public class SessionsHandler {
     }
 
     private String makeHash(String ipAddress) {
-        return ipAddress;
+        StringBuilder builder = new StringBuilder();
+        builder.append("sessionToken=" + ipAddress);
+        return builder.toString();
+    }
+
+    public void print() {
+        for(String key : sessions.keySet()) {
+            System.out.println(key + " : " + sessions.get(key));
+        }
     }
 }

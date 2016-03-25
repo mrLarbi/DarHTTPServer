@@ -3,6 +3,7 @@ package com.upmc.dar.apps.signup;
 import com.upmc.dar.apps.IApplication;
 import com.upmc.dar.http.HttpRequest;
 import com.upmc.dar.http.HttpResponse;
+import com.upmc.dar.utilities.Utilities;
 
 /**
  * Created by mohameddd on 3/12/16.
@@ -34,12 +35,13 @@ public class Register extends IApplication {
             message = "No sport";
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(valid);
-        builder.append('\n');
-        builder.append(message + "\n");
+        Utilities.textResponse(valid, message, response);
 
-        response.setBody(builder.toString());
+        if(valid) {
+            User user = new User(username, password, sport);
+            SignUp.addUser(user);
+            request.getSession().setAttribute("user", user);
+        }
 
         return response;
     }
