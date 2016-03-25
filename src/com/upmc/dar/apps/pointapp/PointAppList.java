@@ -9,7 +9,6 @@ import com.upmc.dar.http.HttpResponse;
  */
 public class PointAppList extends IApplication {
 
-
     @Override
     protected HttpResponse doGet(HttpRequest request) {
         HttpResponse response = new HttpResponse();

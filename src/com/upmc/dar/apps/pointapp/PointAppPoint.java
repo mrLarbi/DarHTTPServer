@@ -93,7 +93,6 @@ public class PointAppPoint extends IApplication {
             response.setBody("KO");
         }
 
-
         return response;
     }
 

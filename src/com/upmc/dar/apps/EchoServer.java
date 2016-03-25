@@ -30,10 +30,13 @@ public class EchoServer extends IApplication {
 		}
 		return response;
 	}
+<<<<<<< Updated upstream
 
 	protected HttpResponse doBad(HttpRequest request) {
 		HttpResponse response = new HttpResponse();
 		response.setStatus(400);
 		return response;
 	}
+=======
+>>>>>>> Stashed changes
 }
