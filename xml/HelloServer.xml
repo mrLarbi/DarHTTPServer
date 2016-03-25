@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<routing>
+	<mapping name="all">
+		<url>/</url>
+		<class>com.upmc.dar.apps.HelloServer</class>
+	</mapping>
+</routing>

@@ -9,7 +9,7 @@ public abstract class IApplication {
 
 	private HashMap<Integer, String> params = new HashMap<Integer, String>();
 	
-    public HttpResponse accept(HttpRequest request) {
+    public final HttpResponse accept(HttpRequest request) {
     	String m = request.getMethod();
     	
     	if(!request.isValid())
@@ -26,6 +26,7 @@ public abstract class IApplication {
     	default : return doBad(request);
     	}
     };
+<<<<<<< Updated upstream
 
 	protected HttpResponse doGet(HttpRequest request) {
 		return notImplemented();
@@ -60,6 +61,44 @@ public abstract class IApplication {
 	}
 
 	private HttpResponse notImplemented() {
+=======
+    
+    protected HttpResponse doGet(HttpRequest request) {
+    	return notImplemented();
+    }
+    
+	protected HttpResponse doHead(HttpRequest request) {
+		return notImplemented();
+	}
+	
+	protected HttpResponse doPost(HttpRequest request) {
+		return notImplemented();
+	}
+	
+	protected HttpResponse doOptions(HttpRequest request) {
+		return notImplemented();
+	}
+	
+	protected HttpResponse doPut(HttpRequest request) {
+		return notImplemented();
+	}
+	
+	protected HttpResponse doDelete(HttpRequest request) {
+		return notImplemented();
+	}
+	
+	protected HttpResponse doTrace(HttpRequest request) {
+		return notImplemented();
+	}
+	
+	protected HttpResponse doBad(HttpRequest request) {
+		HttpResponse response = new HttpResponse();
+		response.setStatus(400);
+		return response;
+	}
+	
+	protected HttpResponse notImplemented() {
+>>>>>>> Stashed changes
 		HttpResponse response = new HttpResponse();
 		response.setStatus(501);
 		return response;
