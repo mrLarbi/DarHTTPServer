@@ -17,7 +17,7 @@ public class SessionsHandler {
     private static final long sessionLifeTime = 2592000;
 
     public SessionsHandler() {
-
+        sessions = new HashMap<>();
     }
 
     public boolean isSession(String cookie) {

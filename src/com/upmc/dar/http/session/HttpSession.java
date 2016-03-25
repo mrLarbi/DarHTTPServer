@@ -12,6 +12,7 @@ public class HttpSession {
 
     public HttpSession() {
         creationDate = System.currentTimeMillis();
+        attributes = new HashMap<>();
     }
 
     public Object getAttribute(String key) {

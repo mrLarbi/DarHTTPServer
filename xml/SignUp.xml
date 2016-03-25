@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<routing>
+    <mapping name="register">
+        <url>/register</url>
+        <class>com.upmc.dar.apps.signup.Register</class>
+    </mapping>
+    <mapping name="login">
+        <url>/login</url>
+        <class>com.upmc.dar.apps.signup.Login</class>
+    </mapping>
+    <mapping name="isLogged">
+        <url>/isLogged</url>
+        <class>com.upmc.dar.apps.signup.IsLogged</class>
+    </mapping>
+</routing>

@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * Created by mohameddd on 3/12/16.
  */
-public class Backend {
+public class SignUp {
 
     static HashMap<String, User> users = new HashMap<>();
 
