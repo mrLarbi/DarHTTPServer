@@ -34,6 +34,7 @@ public class SessionsHandler {
     }
 
     public String createSession(String ipAddress, HttpRequest req, HttpResponse resp) {
+        //String hash = makeHash(ipAddress, req.getHeader("User-Agent"));
         String hash = makeHash(ipAddress);
         sessions.put(hash, req.getSession());
         resp.addHeader("Set-Cookie", hash);
@@ -63,7 +64,18 @@ public class SessionsHandler {
 
     private String makeHash(String ipAddress) {
         StringBuilder builder = new StringBuilder();
-        builder.append("sessionToken=" + ipAddress);
+        builder.append("sessionToken=" + ipAddress + System.currentTimeMillis());
+        return builder.toString();
+    }
+
+    private String makeHash(String ipAddress, String userAgent) {
+        StringBuilder builder = new StringBuilder();
+        String[] agents = userAgent.split(" ");
+        String userAgentCookie = "Dummy";
+        if(agents.length > 0) {
+            userAgentCookie = agents[0];
+        }
+        builder.append("sessionToken=" + ipAddress + userAgentCookie);
         return builder.toString();
     }
 

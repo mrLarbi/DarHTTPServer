@@ -1,26 +1,85 @@
 <html>
 	<head>
 		<title> Home </title>
+		<style type="text/css">
+		
+		</style>
 	</head>
 	<body>
 		<h1>
-			Sport-Men		
+			Sports-Men		
 		</h1>
-		<form method="POST" action="">
+		<div>
 			<input id="loginUsername" type="text" placeholder="Login"/>
 			
 			<input id="loginPassword" type="password" placeholder="Password"/>
 			
-			<input type="submit" name="loginSubmit" value="Sign In"/>
-		</form>
-		<form method="POST" action="">
+			<button id="loginSubmit" onclick="login()">Sign In</button>
+		</div>
+		<br>
+		<div>
 			<input id="registerUsername" type="text" placeholder="Username"/>
 			
 			<input id="registerPassword" type="password" placeholder="Password"/>
 			
 			<input id="registerSport" type="text" placeholder="Sport"/>
 			
-			<input type="submit" name="registerSubmit" value="Sign Up"/>
-		</form>
+			<button id="registerSubmit" name="registerSubmit" onclick="register()"> Sign Up </button>
+		</div>
+		<script type="text/javascript" >
+			function register() {
+				registerUsername = document.getElementById("registerUsername").value;
+				registerPassword = document.getElementById("registerPassword").value;			
+				registerSport = document.getElementById("registerSport").value;
+				var xhttp = new XMLHttpRequest();
+  				xhttp.onreadystatechange = function() {
+    				if (xhttp.readyState == 4 && xhttp.status == 200) {
+      				var response = JSON.parse(xhttp.responseText);
+      				switch(response.error) {
+      					case "none":
+      				}
+      				console.log(response.error)
+    				}
+  				};
+  				xhttp.open("POST", "register?"+"username="+registerUsername+"&password="+registerPassword+"&sport="+registerSport, true);
+  				xhttp.send();
+			}
+			function login() {
+				loginUsername = document.getElementById("loginUsername").value;
+				loginPassword = document.getElementById("loginPassword").value;
+				var xhttp = new XMLHttpRequest();
+  				xhttp.onreadystatechange = function() {
+    				if (xhttp.readyState == 4 && xhttp.status == 200) {
+      				var response = JSON.parse(xhttp.responseText);
+      				switch(response.error) {
+      					case "none":
+      						location.reload();
+      				}
+    				}
+  				};
+  				xhttp.open("POST", "login?"+"username="+loginUsername+"&password="+loginPassword, true);
+  				xhttp.send();
+				
+			}
+			var isloggedTimer = setInterval(isloggedTimerFunction, 10000);
+
+			function isloggedTimerFunction() {
+    			var xhttp = new XMLHttpRequest();
+  				xhttp.onreadystatechange = function() {
+    				if (xhttp.readyState == 4 && xhttp.status == 200) {
+      				var response = JSON.parse(xhttp.responseText);
+      				switch(response.error) {
+      					case "none":
+      						if(response.isLogged) {
+      							location.reload();
+      						}
+      				}
+    				}
+  				};
+  				xhttp.open("GET", "isLogged", true);
+  				xhttp.send();
+			}
+			
+		</script>
 	</body>
 </html>

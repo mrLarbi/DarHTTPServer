@@ -55,7 +55,9 @@ public class HttpRequest {
 		if(url.getUrl().split("\\?").length == 2) {
 			for(String param : url.getUrl().split("\\?")[1].split("\\&")) {
 				String p[] = param.split("=");
-				url.getParameters().put(p[0], p[1]);
+				if(p.length == 2) {
+					url.getParameters().put(p[0], p[1]);
+				}
 			}
 		}
 		

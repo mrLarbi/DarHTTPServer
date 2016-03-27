@@ -1,0 +1,116 @@
+<html>
+
+	<head>
+		<title> 
+			Sportsmen		
+		</title>
+	</head>
+	<body>
+		<h1>
+			Sports-Men		
+		</h1>
+		<p>
+			Hi $sport$-man : $username$ !
+		</p>
+		<p>
+			Here are other sports-men : 
+		</p>
+		<table id="usersTable">
+			<tr>
+				<td> User </td>
+				<td> Logged </td>
+				<td> Sport </td>			
+			</tr>
+		</table>
+		<br>
+		<button onclick="logout()"> Logout </button>
+		<script type="text/javascript" >
+			users = [];			
+			
+			function addUser(user) {
+				var usersTable = document.getElementById("usersTable");
+				var userTr = document.createElement("tr");			
+				var usernameTd = document.createElement("td");	
+				var loggedTd = document.createElement("td");	
+				loggedTd.setAttribute("id", user.username + "Logged");		
+				var sportTd = document.createElement("td");
+				usernameTd.innerHTML = user.username;			
+				loggedTd.innerHTML = user.isLogged ? "Yes" : "No";			
+				sportTd.innerHTML = user.sport;
+				userTr.appendChild(usernameTd);
+				userTr.appendChild(loggedTd);
+				userTr.appendChild(sportTd);
+				usersTable.appendChild(userTr);
+				
+				users[user.username] = user;
+			}
+			
+			function setUserLogged(user) {
+				users[user.username].isLogged = user.isLogged;
+				loggedTd = document.getElementById(user.username + "Logged");
+				loggedTd.innerHTML = user.isLogged ? "Yes" : "No";
+			}
+			
+			var isloggedTimer = setInterval(isloggedTimerFunction, 5000);
+
+			function isloggedTimerFunction() {
+    			var xhttp = new XMLHttpRequest();
+  				xhttp.onreadystatechange = function() {
+    				if (xhttp.readyState == 4 && xhttp.status == 200) {
+      				var response = JSON.parse(xhttp.responseText);
+      				switch(response.error) {
+      					case "none":
+      						if(!response.isLogged) {
+      							location.reload();
+      						}
+      				}
+    				}
+  				};
+  				xhttp.open("GET", "isLogged", true);
+  				xhttp.send();
+			}
+			
+			var usersTimer = setInterval(usersTimerFunction, 5000);
+
+			function usersTimerFunction() {
+    			var xhttp = new XMLHttpRequest();
+  				xhttp.onreadystatechange = function() {
+    				if (xhttp.readyState == 4 && xhttp.status == 200) {
+      				var response = JSON.parse(xhttp.responseText);
+      				switch(response.error) {
+      					case "none":
+      						for(var i =0 ; i < response.users.length ; i++) {
+									 if(!users[response.users[i].username]) {
+									 	addUser(response.users[i]);
+									 }
+									 else {
+										setUserLogged(response.users[i]);									 
+									 }
+      						}
+      				}
+    				}
+  				};
+  				xhttp.open("GET", "getUsers", true);
+  				xhttp.send();
+			}
+			
+			function logout() {
+				var xhttp = new XMLHttpRequest();
+  				xhttp.onreadystatechange = function() {
+    				if (xhttp.readyState == 4 && xhttp.status == 200) {
+      				var response = JSON.parse(xhttp.responseText);
+      				switch(response.error) {
+      					case "none":
+      						location.reload();
+      				}
+    				}
+  				};
+  				xhttp.open("POST", "logout", true);
+  				xhttp.send();
+				
+			}
+			
+			usersTimerFunction()
+		</script>
+	</body>
+</html>
