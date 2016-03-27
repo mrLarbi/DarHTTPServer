@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<routing>
+    <mapping name="register">
+        <url>/register</url>
+        <class>com.upmc.dar.apps.sports.Register</class>
+    </mapping>
+    <mapping name="login">
+        <url>/login</url>
+        <class>com.upmc.dar.apps.sports.Login</class>
+    </mapping>
+    <mapping name="isLogged">
+        <url>/isLogged</url>
+        <class>com.upmc.dar.apps.sports.IsLogged</class>
+    </mapping>
+    <mapping name="logout">
+        <url>/logout</url>
+        <class>com.upmc.dar.apps.sports.Logout</class>
+    </mapping>
+    <mapping name="getUsers">
+        <url>/getUsers</url>
+        <class>com.upmc.dar.apps.sports.GetUsers</class>
+    </mapping>
+    <mapping name="home">
+        <url>/home</url>
+        <class>com.upmc.dar.apps.sports.Home</class>
+    </mapping>
+</routing>
