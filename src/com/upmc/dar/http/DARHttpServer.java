@@ -30,6 +30,8 @@ public class DARHttpServer {
 
 	public static void main(String args[]) {
 
+
+		System.out.println("Server running... ");
 		ServerSocket server = null;
 		int port = -1;
 

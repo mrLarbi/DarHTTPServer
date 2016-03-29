@@ -37,6 +37,7 @@
       				var response = JSON.parse(xhttp.responseText);
       				switch(response.error) {
       					case "none":
+      						location.reload();
       				}
       				console.log(response.error)
     				}
